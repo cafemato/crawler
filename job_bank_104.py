@@ -1,5 +1,5 @@
 # coding=UTF-8
-# ver 1.0(抓取內頁)
+# ver 2.0(抓取內頁)
 ##目標網址:104人力銀行，搜尋關鍵字[大數據]
 ##利用xpath取得資料後,以sqlalchemy與pandas連結mysql送入資料
 import requests

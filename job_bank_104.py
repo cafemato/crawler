@@ -33,15 +33,30 @@ def crawler(keyword,t_name):
         if len(data) == 0:     #   如果抓不到資料就停止
             break
         for i in range(len(data)):
-            try:
-                position = data[i].find("a").text.strip()
+            try:           
+                position = data[i].find("a").text.strip()            
                 company = data[i].find("ul").find("a").text.strip()
                 area = data[i].find("ul",class_="b-list-inline b-clearfix job-list-intro b-content").find_all("li")[0].text.strip()
-                industry = data[i].attrs['data-indcat-desc'].strip()
+                industry = data[i].attrs['data-indcat-desc'].strip()     
                 requirement = data[i].find("ul",class_="b-list-inline b-clearfix job-list-intro b-content").find_all("li")[1].text.strip()
+                if requirement == "經歷不拘": 
+                    requirement = 'N'
+                else:
+                    requirement = requirement.split("年以上")[0]
                 education = data[i].find("ul",class_="b-list-inline b-clearfix job-list-intro b-content").find_all("li")[2].text.strip()
                 content = data[i].find("p",class_="job-list-item__info b-clearfix b-content").text.strip()
-                salary = data[i].find("div",class_="job-list-tag b-content").find("span").text.strip()
+                salary_low = data[i].find("div",class_="job-list-tag b-content").find("span").text.strip()
+                if salary_low  == "待遇面議": 
+                    salary_low = 'N/A'
+                    salary_high = ''
+                elif "元以上" in salary_low:
+                    salary_low = ''.join(x for x in salary_low if x.isdigit())
+                    salary_high = ''
+                elif "~" in salary_low :
+                    low = salary_low.split("~")[0]
+                    high = salary_low.split("~")[1]
+                    salary_low = ''.join(x for x in low if x.isdigit())
+                    salary_high = ''.join(x for x in high if x.isdigit())                  
                 updated = data[i].find("h2",class_="b-tit").find("span").text.strip()
                 applicant = data[i].find("div",class_="b-block__right b-pos-relative").find("a").text.strip()
                 link =  data[i].find("h2").find("a").attrs['href'].strip()
@@ -51,14 +66,26 @@ def crawler(keyword,t_name):
                 detail = soup.find("div", id="job")
                 job_type = detail.find_all("div",class_="content")[0].find_all("dd")[2].text.strip()
                 b_trip = detail.find_all("div",class_="content")[0].find_all("dd")[5].text.strip()
+                if b_trip == "無需出差外派":
+                    b_trip = 'N'
+                else:
+                     b_trip = 'Y'
                 manager = detail.find_all("div",class_="content")[0].find_all("dd")[4].text.strip()
+                if manager == "不需負擔管理責任":
+                    manager = 'N'
+                else:
+                     manager = 'Y'
                 language = detail.find_all("div",class_="content")[1].find_all("dd")[4].text.strip()
+                if language == "不拘":
+                    language = "N"
+                else:
+                    language = language.split("--")[0].strip()
                 soft_skill = detail.find_all("div",class_="content")[1].find_all("dd")[5].text.strip()
-                other_skill = detail.find_all("div",class_="content")[1].find_all("dd")[6].text.strip()
-                job_list.append({"bank_id":"104","company":company,"position":position,"area":area,"salary":salary, "industry":industry,
+                other_skill = detail.find_all("div",class_="content")[1].find_all("dd")[6].text.strip()                        
+                job_list.append({"bank_id":"104","company":company,"position":position,"area":area,"salary_low":salary_low, "salary_high":salary_high, "industry":industry,
                                     "requirement":requirement,"education":education,"content":content,"applicant":applicant,"updated":updated,
                                  "link":job_url,"job_type":job_type, "b_trip":b_trip, "manager":manager, "language":language, "soft_skill":soft_skill,
-                                 "other_skill":other_skill })
+                                 "other_skill":other_skill }) 
             except:
                 continue
         j +=1
@@ -99,7 +126,8 @@ def create_table(t_name, new=1):
    `company` VARCHAR(255) NOT NULL,\
    `position` VARCHAR(255) NOT NULL,\
    `area` VARCHAR(255)  NULL,\
-   `salary` VARCHAR(255) NULL,\
+   `salary_low` VARCHAR(255) NULL,\
+   `salary_high` VARCHAR(255) NULL,\
    `industry` VARCHAR(255) NULL,\
    `content` VARCHAR(255)  NULL,\
    `requirement` VARCHAR(255) NULL,\

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>ChartJS - BarGraph</title>
+    <style type="text/css">
+      #chart-container {
+        width: 640px;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chart-container">
+      <canvas id="mycanvas" width="400" height="400"></canvas>
+    </div>
+
+    <!-- javascript -->
+    <!-- JQuery -->
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"></script>
+    <!-- Chart JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+    <script>
+      $(document).ready(function(){
+      $.ajax({
+        url: "http://localhost/data/data.php",
+        method: "GET",
+        success: function(data) {
+          console.log(data);
+          var player = [];
+          var score = [];
+          var colorArr =[
+          'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(75, 192, 192, 0.5)',
+                'rgba(153, 102, 255, 0.5)',
+                'rgba(255, 159, 64, 0.5)'
+          ];  
+
+          for(var i in data) {
+            player.push(data[i].industry);
+            score.push(data[i].counts);
+          }
+
+          var chartdata = {
+            labels: player,
+            datasets : [
+              {
+                label: '搜尋關鍵字之產業別職缺筆數',
+                backgroundColor: colorArr[2],
+                borderColor: colorArr[0],
+                hoverBackgroundColor: colorArr[1],
+                hoverBorderColor: colorArr[3],
+                data: score
+              }
+            ]
+          };
+
+          var ctx = $("#mycanvas");
+
+          var barGraph = new Chart(ctx, {
+            type: 'bar',
+            data: chartdata
+          });
+        },
+        error: function(data) {
+          console.log(data);
+        }
+      });
+});
+
+    </script>
+  </body>
+ </html>

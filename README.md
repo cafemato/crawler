@@ -34,3 +34,24 @@ Web crawler for Job Bank 104 https://www.104.com.tw
 6.教育研究醫療生技業(教育/研究/醫/生技/生化)
 7.服務業(美容/美髮/餐飲/烘焙/觀光/旅遊/服務)
 8.其他產業(任何其他專業等)
+
+
+    
+if any(x in industry for x in ['金融','銀行業','保險','投資',"證券"]):
+    industry = "金融業"
+elif any(x in industry for x in ["電腦","軟體","硬體","系統","網路"]):
+    industry = "資訊科技業"
+elif any(x in industry for x in ["半導體","電信","電子","光電"]):
+    industry = "電子電信業"
+elif  any(x in industry for x in ["製造","食品","飲料","紡織","家具","製紙","印刷","化工","金屬","機械","電力","運輸","儀器","建築","物流","倉儲","營建","品管","品保","土木","農林漁牧","礦業土石"]):
+    industry = "傳產製造業"
+elif  any(x in industry for x in ["出版","翻譯","影視","演藝","新聞","媒體","美編","設計","裝潢","傳播"]):
+    industry = "文化媒體業"
+elif  any(x in industry for x in ["教育","研究","醫","生化","生技"]):
+    industry = "教育研究醫療生技業"
+elif  any(x in industry for x in ["經營","零售","管理","行政","行銷","企劃","顧問","財務","會計","稽核","審計","國際貿易","業務","客服"]):
+    industry = "一般商業"
+elif  any(x in industry for x in ["美容","美髮","餐飲","烘培","觀光","旅遊","門市"]):
+    industry = "服務業"  
+else:
+    industry = "其他產業" 

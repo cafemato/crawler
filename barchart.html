@@ -5,7 +5,7 @@
     <title>ChartJS - BarGraph</title>
     <style type="text/css">
       #chart-container {
-        width: 640px;
+        width: 800px;
         height: auto;
       }
     </style>
@@ -24,6 +24,21 @@
     <!-- Chart JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
     <script>
+
+      function sendMyAjax(URL_address){
+          $.ajax({
+               type: 'POST',
+               url: URL_address,
+               data: {
+                   answer_service: answer,
+                   expertise_service: expertise,
+                   email_service: email,
+               },
+               success: function (data) {
+                   $(".error_msg").text(data);
+               }
+           });
+      };
       $(document).ready(function(){
       $.ajax({
         url: "http://localhost/data/data.php",
@@ -32,29 +47,49 @@
           console.log(data);
           var player = [];
           var score = [];
-          var colorArr =[
-          'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.5)',
-                'rgba(255, 206, 86, 0.5)',
-                'rgba(75, 192, 192, 0.5)',
-                'rgba(153, 102, 255, 0.5)',
-                'rgba(255, 159, 64, 0.5)'
+          var colorArr1 =[
+                "rgba(255, 99, 132, 0.2)",
+                "rgba(255, 159, 64, 0.2)",
+                "rgba(255, 205, 86, 0.2)",
+                "rgba(75, 192, 192, 0.2)",
+                "rgba(54, 162, 235, 0.2)",
+                "rgba(153, 102, 255, 0.2)",
+                "rgba(201, 203, 207, 0.2)"
+          ];
+          var colorArr2 =[
+                "rgb(255, 99, 132)",
+                "rgb(255, 159, 64)",
+                "rgb(255, 205, 86)",
+                "rgb(75, 192, 192)",
+                "rgb(54, 162, 235)",
+                "rgb(153, 102, 255)",
+                "rgb(201, 203, 207)"
           ];  
 
           for(var i in data) {
-            industry.push(data[i].industry);
+            player.push(data[i].industry);
             score.push(data[i].counts);
           }
 
           var chartdata = {
-            labels: industry,
+            labels: player,
             datasets : [
               {
-                label: '搜尋關鍵字之產業別職缺筆數',
-                backgroundColor: colorArr[2],
-                borderColor: colorArr[0],
-                hoverBackgroundColor: colorArr[1],
-                hoverBorderColor: colorArr[3],
+                label: '104',
+                backgroundColor: colorArr1[0],
+                borderColor: colorArr2[0],
+                borderWidth: 1,
+                hoverBackgroundColor: colorArr1[5],
+                hoverBorderColor: colorArr2[5],
+                data: score
+              },
+              {
+                label: '1111',
+                backgroundColor: colorArr1[1],
+                borderColor: colorArr2[1],
+                borderWidth: 1,
+                hoverBackgroundColor: colorArr1[5],
+                hoverBorderColor: colorArr2[5],
                 data: score
               }
             ]
@@ -64,7 +99,50 @@
 
           var barGraph = new Chart(ctx, {
             type: 'bar',
-            data: chartdata
+            data: chartdata,
+            options: {
+              title: {
+                display: true,
+                text: '[大數據]產業別之職缺數量',
+                fontStyle: 'bold',
+                fontColor: '#000',
+                fontSize: 16
+              },
+              scales: {
+                xAxes: [{
+                  scaleLabel: {
+                      display: true,
+                      labelString: '產業名稱',
+                      fontColor: '#333',
+                      fontSize: 16
+                  },
+                  ticks: {
+                    beginAtZero: true,
+                    max: 70,
+                    min: -10                   
+                  }
+                }],
+                yAxes: [{
+                  barPercentage: 0.9,
+                  scaleLabel: {
+                      display: true,
+                      labelString: '職缺數目',
+                      fontColor: '#333',
+                      fontSize: 16
+                  },
+                }]
+              },
+              tooltips: {
+                backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                borderWidth: 5,
+                titleFontsize: 20
+              },
+              legend: {
+                  display: true,
+                  position: 'top'
+                  
+              }
+            }  
           });
         },
         error: function(data) {

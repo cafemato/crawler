@@ -42,12 +42,12 @@
           ];  
 
           for(var i in data) {
-            player.push(data[i].industry);
+            industry.push(data[i].industry);
             score.push(data[i].counts);
           }
 
           var chartdata = {
-            labels: player,
+            labels: industry,
             datasets : [
               {
                 label: '搜尋關鍵字之產業別職缺筆數',

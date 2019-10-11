@@ -24,27 +24,12 @@
     <!-- Chart JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
     <script>
-
-      function sendMyAjax(URL_address){
-          $.ajax({
-               type: 'POST',
-               url: URL_address,
-               data: {
-                   answer_service: answer,
-                   expertise_service: expertise,
-                   email_service: email,
-               },
-               success: function (data) {
-                   $(".error_msg").text(data);
-               }
-           });
-      };
       $(document).ready(function(){
       $.ajax({
         url: "http://localhost/data/data.php",
         method: "GET",
         success: function(data) {
-          console.log(data);
+          console.log(data[0]);
           var player = [];
           var score = [];
           var colorArr1 =[
@@ -66,10 +51,11 @@
                 "rgb(201, 203, 207)"
           ];  
 
-          for(var i in data) {
-            player.push(data[i].industry);
-            score.push(data[i].counts);
+          for(var i in data[0].data1) {
+            player.push(data[0].data1[i].industry);
+            score.push(data[0].data1[i].counts);
           }
+          
 
           var chartdata = {
             labels: player,
@@ -94,6 +80,7 @@
               }
             ]
           };
+
 
           var ctx = $("#mycanvas");
 

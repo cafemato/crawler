@@ -2,18 +2,73 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ChartJS - BarGraph</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
     <style type="text/css">
       #chart-container {
-        width: 800px;
+        width: auto;
         height: auto;
       }
     </style>
   </head>
   <body>
     <div id="chart-container">
-      <canvas id="industry_job_no" width="400" height="400"></canvas>
-      <canvas id="high_salary_job" width="400" height="400"></canvas>
+      <div class="col-8 offset-2">
+                <div class="card card-default">
+                  <div class="card-header justify-content-center">
+                    <h3 class="text-center">關鍵字[大數據]產業別之職缺數量</h3>
+                  </div>
+                  <div class="card-body" >
+                    <canvas id="industry_job_no"></canvas>
+                  </div>
+                </div>
+      </div>
+      <div class="col-8 offset-2">
+                <div class="card card-default mt-3">
+                  <div class="card-header justify-content-center">
+                    <h3 class="text-center">關鍵字[大數據]要求年資與起薪分佈圖</h3>
+                  </div>
+                  <div class="card-body" >
+                    <canvas id="high_salary_job"></canvas>
+                  </div>
+                </div>
+      </div>
+      <div class="col-8 offset-2">
+                <div class="card card-default mt-3">
+                  <div class="card-header justify-content-center">
+                    <h3 class="text-center">關鍵字[大數據]產業別起薪範圍圖</h3>
+                  </div>
+                  <div class="card-body" >
+                    <canvas id="salary_in_industry"></canvas>
+                  </div>
+                </div>
+      </div>
+     <!--  <div class="row">
+      <div class="col-6">
+                <div class="card card-default">
+                  <div class="card-header justify-content-center">
+                    <h2 class="text-center">Product Line Chart</h2>
+                  </div>
+                  <div class="card-body">
+                    <canvas id="industry_job_no"></canvas>
+                  </div>
+                </div>
+              </div>
+      <div class="col-6">
+                <div class="card card-default">
+                  <div class="card-header justify-content-center">
+                    <h2 class="text-center">Product Line Chart</h2>
+                  </div>
+                  <div class="card-body">
+                    <canvas id="high_salary_job"></canvas>
+                  </div>
+                </div>
+              </div>
+      </div> -->
+      <!-- <canvas id="high_salary_job" width="400" height="400"></canvas>
+      <canvas id="salary_in_industry" width="400" height="400"></canvas> -->
     </div>
 
     <!-- javascript -->
@@ -42,6 +97,9 @@
           var new_salary_low = [];
           var company = [];
           var avg_salary = 0;
+          //intial vairable salary_in_industry
+          var rdata1 = [];
+          var rdata2 = [];
 
           //比較數值大小，排序用，無此函數排序數值會失效
           function compareNumbers(a, b) {
@@ -85,36 +143,37 @@
               var json = {x: data[0].data2[i].requirement,y: data[0].data2[i].salary_low,z:data[0].data2[i].company};
               scatter.push(json);
               company.push(data[0].data2[i].company);
-            }
-
-                       
-            
+            }            
           }
-          console.log(company);
 
           salary_low_year.sort(compareNumbers);
           salary_low.sort(compareNumbers); 
 
-          // var begin = parseInt((salary_low.length / 4) *3 );
-          // console.log(begin);
-          // var total = 0;
-          //   for(var i = 190; i < salary_low.length; i++) {
-          //       total += Number(salary_low[i]);
-          //   }
-          // var avg = total / salary_low.length;
-          // console.log(total);
-          // console.log(salary_low.length);
-          // console.log(avg);
-          // for(var i in data[0].data2) {
-          //   if (data[0].data2[i].salary_low > avg &&data[0].data2[i].salary_low <150000) {
-          //     new_salary_low.push(data[0].data2[i].salary_low);
-          //   }     
-          // }
-          // //Array.prototype.push.apply(salary_low, salary_low_year);
-          // new_salary_low.sort(compareNumbers);
-          // console.log(new_salary_low);
-          // console.log(salary_low_year);
+          //Data push from salary_in_industry
           
+          rdata1.push(data[0].data3[0].biz);
+          rdata1.push(data[0].data3[0].edu);
+          rdata1.push(data[0].data3[0].elec);
+          rdata1.push(data[0].data3[0].fin);
+          rdata1.push(data[0].data3[0].manu);
+          rdata1.push(data[0].data3[0].media);
+          rdata1.push(data[0].data3[0].others);
+          rdata1.push(data[0].data3[0].tech);  
+          
+          rdata2.push(data[0].data4[0].biz);
+          rdata2.push(data[0].data4[0].edu);
+          rdata2.push(data[0].data4[0].elec);
+          rdata2.push(data[0].data4[0].fin);
+          rdata2.push(data[0].data4[0].manu);
+          rdata2.push(data[0].data4[0].media);
+          rdata2.push(data[0].data4[0].others);
+          rdata2.push(data[0].data4[0].tech);  
+          
+
+          console.log(rdata1);
+          console.log(rdata2);
+
+
           // chartdata setting
           var chartdata = {
             labels: industry,
@@ -165,6 +224,8 @@
             ]
           };
 
+          
+
           //canvas setting
           var ctx = $("#industry_job_no");
 
@@ -173,13 +234,13 @@
             type: 'bar',
             data: chartdata,
             options: {
-              title: {
-                display: true,
-                text: '[大數據]產業別之職缺數量',
-                fontStyle: 'bold',
-                fontColor: '#000',
-                fontSize: 16
-              },
+              // title: {
+              //   display: true,
+              //   text: '[大數據]產業別之職缺數量',
+              //   fontStyle: 'bold',
+              //   fontColor: '#000',
+              //   fontSize: 16
+              // },
               scales: {
                 xAxes: [{
                   scaleLabel: {
@@ -228,18 +289,18 @@
                     labels: company,
                     datasets: [{label:'104',
                                 data: scatter,
-                                backgroundColor:colorArr2[3]
+                                backgroundColor:colorArr2[5]
                     }
                     ],
             },
             options: {
-              title: {
-                display: true,
-                text: '[大數據]要求年資與起薪分佈圖',
-                fontStyle: 'bold',
-                fontColor: '#000',
-                fontSize: 16
-              },
+              // title: {
+              //   display: true,
+              //   text: '[大數據]要求年資與起薪分佈圖',
+              //   fontStyle: 'bold',
+              //   fontColor: '#000',
+              //   fontSize: 16
+              // },
               scales: {
                 xAxes: [{
                   type: 'linear',
@@ -289,6 +350,56 @@
               }
             }  
           });
+
+
+          //canvas setting
+          var ctx3 = $("#salary_in_industry");
+
+          //Graph detail
+          var radarGraph = new Chart(ctx3, {
+            type: 'radar', 
+            data: { 
+                    labels: ['一般商業' , '教育研究醫療生技業' , '電子電信業' , '金融業', '傳產製造業', '文化媒體業', '其他產業', '資訊科技業'],                   
+                    datasets : [{
+                          label: '最低起薪',
+                          fill: true,
+                          backgroundColor: colorArr1[3],
+                          borderColor: colorArr2[3],
+                          pointBackgroundColor: colorArr1[3],
+                          pointBorderColor: colorArr2[3],
+                          data: rdata1
+                        },{
+                          label: '最高起薪',
+                          fill: true,
+                          backgroundColor: colorArr1[4],
+                          borderColor: colorArr2[4],
+                          pointBackgroundColor: colorArr1[4],
+                          pointBorderColor: colorArr2[4],
+                          data: rdata2
+                        }]
+            },
+            options: {
+              // title: {
+              //   display: true,
+              //   text: '[大數據]產業別起薪範圍圖',
+              //   fontStyle: 'bold',
+              //   fontColor: '#000',
+              //   fontSize: 16
+              // },
+              tooltips: {
+                
+                callbacks: {
+                   label: function(tooltipItem, data) {
+                    var label = data.labels[tooltipItem.index];
+                    var money = tooltipItem.yLabel;
+                    return data.labels[tooltipItem.index]+"，月薪：" + money;
+                 }
+               }
+              }
+
+            }  
+          });
+
         },
         error: function(data) {
           console.log(data);

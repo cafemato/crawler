@@ -23,22 +23,35 @@ $query = sprintf("SELECT industry, count(*) AS counts FROM bigdata GROUP BY indu
 //查訊關鍵字各產業的最低起薪跟最高起薪
 $query2 = sprintf("SELECT company,salary_low,requirement from bigdata");
 //查訊關鍵字各產業的最低起薪跟最高起薪
-$query3 = sprintf("SELECT AVG(CASE WHEN industry = '資訊科技業' THEN salary_low END) AS  tech,
-                 AVG(CASE WHEN industry = '電子電信業' THEN salary_low END) AS  elec,
-                 AVG(CASE WHEN industry = '金融業' THEN salary_low END) AS  fin,
-                 AVG(CASE WHEN industry = '傳產製造業' THEN salary_low END) AS  manu,
-                 AVG(CASE WHEN industry = '文化媒體業' THEN salary_low END) AS  media,
-                 AVG(CASE WHEN industry = '教育研究醫療生技業' THEN salary_low END) AS  edu,
-                 AVG(CASE WHEN industry = '一般商業' THEN salary_low END) AS  biz,
-                 AVG(CASE WHEN industry = '服務業' THEN salary_low END) AS  service,     
-                 AVG(CASE WHEN industry = '其他產業' THEN salary_low END) AS  others
+$query3 = sprintf("SELECT ROUND(AVG(CASE WHEN industry = '資訊科技業' THEN salary_low END)) AS  tech,
+                 ROUND(AVG(CASE WHEN industry = '電子電信業' THEN salary_low END)) AS  elec,
+                 ROUND(AVG(CASE WHEN industry = '金融業' THEN salary_low END)) AS  fin,
+                 ROUND(AVG(CASE WHEN industry = '傳產製造業' THEN salary_low END)) AS  manu,
+                 ROUND(AVG(CASE WHEN industry = '文化媒體業' THEN salary_low END)) AS  media,
+                 ROUND(AVG(CASE WHEN industry = '教育研究醫療生技業' THEN salary_low END)) AS  edu,
+                 ROUND(AVG(CASE WHEN industry = '一般商業' THEN salary_low END)) AS  biz,
+                 ROUND(AVG(CASE WHEN industry = '服務業' THEN salary_low END)) AS  service,     
+                 ROUND(AVG(CASE WHEN industry = '其他產業' THEN salary_low END)) AS  others
 				 FROM bigdata
 				 WHERE salary_low >1500 and salary_low < 150000 ");
+
+$query4 = sprintf("SELECT ROUND(AVG(CASE WHEN industry = '資訊科技業' THEN salary_high END)) AS  tech,
+                 ROUND(AVG(CASE WHEN industry = '電子電信業' THEN salary_high END)) AS  elec,
+                 ROUND(AVG(CASE WHEN industry = '金融業' THEN salary_high END)) AS  fin,
+                 ROUND(AVG(CASE WHEN industry = '傳產製造業' THEN salary_high END)) AS  manu,
+                 ROUND(AVG(CASE WHEN industry = '文化媒體業' THEN salary_high END)) AS  media,
+                 ROUND(AVG(CASE WHEN industry = '教育研究醫療生技業' THEN salary_high END)) AS  edu,
+                 ROUND(AVG(CASE WHEN industry = '一般商業' THEN salary_high END)) AS  biz,
+                 ROUND(AVG(CASE WHEN industry = '服務業' THEN salary_high END)) AS  service,     
+                 ROUND(AVG(CASE WHEN industry = '其他產業' THEN salary_high END)) AS  others
+				 FROM bigdata
+				 WHERE salary_high >3000 and salary_high < 250000 ");
 
 //execute query
 $result = $mysqli->query($query);
 $result2 = $mysqli->query($query2);
 $result3 = $mysqli->query($query3);
+$result4 = $mysqli->query($query4);
 
 //loop through the returned data
 $data = array();
@@ -55,8 +68,14 @@ $data3 = array();
 foreach ($result3 as $row) {
   $data3[] = $row;
 }
+
+$data4 = array();
+foreach ($result4 as $row) {
+  $data4[] = $row;
+}
+
 $posts = array();
-$posts[] = array('data1'=> $data, 'data2'=> $data2, 'data3'=> $data3);
+$posts[] = array('data1'=> $data, 'data2'=> $data2, 'data3'=> $data3, 'data4'=> $data4);
 
 
 // var myJSON = JSON.stringify(myObj);

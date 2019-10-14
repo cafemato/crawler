@@ -33,7 +33,7 @@ def crawler(keyword,t_name):
     ua = UserAgent()
     j = 1
     job_list = []
-    while j<3:    
+    while True:    
         headers = {'user-agent':ua.random}
         url = keyword_url(keyword)
         final_url = url + str(j)
@@ -235,7 +235,7 @@ print("資料已存入資料庫...")
 #瀏覽器參數
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options 
-CHROMEDRIVER_PATH = "/Users/ffmatojp/chromedriver"
+CHROMEDRIVER_PATH = "/Users/cafemato/chromedriver"
 driver = webdriver.Chrome(CHROMEDRIVER_PATH)
 time.sleep(random.randrange(10,20)) 
 driver.set_page_load_timeout(5) 

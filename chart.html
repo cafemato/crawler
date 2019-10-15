@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ChartJS - BarGraph</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    </script>
     <style type="text/css">
       #chart-container {
         width: auto;
@@ -82,10 +82,12 @@
     <script>
       $(document).ready(function(){
       $.ajax({
-        url: "http://localhost/datapool.php",
+        url: "http://localhost/github/crawler/datapool.php",
         method: "GET",
         success: function(data) {
           console.log(data[0]);
+          var key1 = "<?php echo $keyword ?>";
+          console.log(key1);
           //intial vairable industry_job_no
           var industry = [];
           var job_no = [];
@@ -131,47 +133,47 @@
             job_no.push(data[0].data1[i].counts);
           }
 
-          // // Data push from high_salary_job
-          // for(var i in data[0].data2) {
+          // Data push from high_salary_job
+          for(var i in data[0].data2) {
             
-          //   if (data[0].data2[i].salary_low > 150000) {
-          //     salary_low_year.push(data[0].data2[i].salary_low);
-          //   }     
-          //   else if(data[0].data2[i].salary_low >1500 && data[0].data2[i].requirement >0){
-          //     // salary_low.push(data[0].data2[i].salary_low);
-          //     // requirement.push(data[0].data2[i].requirement)
-          //     var json = {x: data[0].data2[i].requirement,y: data[0].data2[i].salary_low,z:data[0].data2[i].company};
-          //     scatter.push(json);
-          //     company.push(data[0].data2[i].company);
-          //   }            
-          // }
+            if (data[0].data2[i].salary_low > 150000) {
+              salary_low_year.push(data[0].data2[i].salary_low);
+            }     
+            else if(data[0].data2[i].salary_low >1500 && data[0].data2[i].requirement >0){
+              // salary_low.push(data[0].data2[i].salary_low);
+              // requirement.push(data[0].data2[i].requirement)
+              var json = {x: data[0].data2[i].requirement,y: data[0].data2[i].salary_low,z:data[0].data2[i].company};
+              scatter.push(json);
+              company.push(data[0].data2[i].company);
+            }            
+          }
 
-          // salary_low_year.sort(compareNumbers);
-          // salary_low.sort(compareNumbers); 
+          salary_low_year.sort(compareNumbers);
+          salary_low.sort(compareNumbers); 
 
-          // //Data push from salary_in_industry
+          //Data push from salary_in_industry
           
-          // rdata1.push(data[0].data3[0].biz);
-          // rdata1.push(data[0].data3[0].edu);
-          // rdata1.push(data[0].data3[0].elec);
-          // rdata1.push(data[0].data3[0].fin);
-          // rdata1.push(data[0].data3[0].manu);
-          // rdata1.push(data[0].data3[0].media);
-          // rdata1.push(data[0].data3[0].others);
-          // rdata1.push(data[0].data3[0].tech);  
+          rdata1.push(data[0].data3[0].biz);
+          rdata1.push(data[0].data3[0].edu);
+          rdata1.push(data[0].data3[0].elec);
+          rdata1.push(data[0].data3[0].fin);
+          rdata1.push(data[0].data3[0].manu);
+          rdata1.push(data[0].data3[0].media);
+          rdata1.push(data[0].data3[0].others);
+          rdata1.push(data[0].data3[0].tech);  
           
-          // rdata2.push(data[0].data4[0].biz);
-          // rdata2.push(data[0].data4[0].edu);
-          // rdata2.push(data[0].data4[0].elec);
-          // rdata2.push(data[0].data4[0].fin);
-          // rdata2.push(data[0].data4[0].manu);
-          // rdata2.push(data[0].data4[0].media);
-          // rdata2.push(data[0].data4[0].others);
-          // rdata2.push(data[0].data4[0].tech);  
+          rdata2.push(data[0].data4[0].biz);
+          rdata2.push(data[0].data4[0].edu);
+          rdata2.push(data[0].data4[0].elec);
+          rdata2.push(data[0].data4[0].fin);
+          rdata2.push(data[0].data4[0].manu);
+          rdata2.push(data[0].data4[0].media);
+          rdata2.push(data[0].data4[0].others);
+          rdata2.push(data[0].data4[0].tech);  
           
 
-          // console.log(rdata1);
-          // console.log(rdata2);
+          console.log(rdata1);
+          console.log(rdata2);
 
 
           // chartdata setting
@@ -199,30 +201,30 @@
             ]
           };
 
-          // // chartdata setting
-          // var chartdata2 = {
-          //   labels: company,
-          //   datasets : [
-          //     {
-          //       label: '104月薪',
-          //       backgroundColor: colorArr1[0],
-          //       borderColor: colorArr2[0],
-          //       borderWidth: 1,
-          //       hoverBackgroundColor: colorArr1[5],
-          //       hoverBorderColor: colorArr2[5],
-          //       data: new_salary_low
-          //     },{
-          //       label: '104年薪',
-          //       backgroundColor: colorArr1[1],
-          //       borderColor: colorArr2[1],
-          //       borderWidth: 1,
-          //       hoverBackgroundColor: colorArr1[5],
-          //       hoverBorderColor: colorArr2[5],
-          //       data: salary_low_year
-          //     }
+          // chartdata setting
+          var chartdata2 = {
+            labels: company,
+            datasets : [
+              {
+                label: '104月薪',
+                backgroundColor: colorArr1[0],
+                borderColor: colorArr2[0],
+                borderWidth: 1,
+                hoverBackgroundColor: colorArr1[5],
+                hoverBorderColor: colorArr2[5],
+                data: new_salary_low
+              },{
+                label: '104年薪',
+                backgroundColor: colorArr1[1],
+                borderColor: colorArr2[1],
+                borderWidth: 1,
+                hoverBackgroundColor: colorArr1[5],
+                hoverBorderColor: colorArr2[5],
+                data: salary_low_year
+              }
 
-          //   ]
-          // };
+            ]
+          };
 
           
 
@@ -280,125 +282,125 @@
 
 
           //canvas setting
-          // var ctx2 = $("#high_salary_job");
+          var ctx2 = $("#high_salary_job");
 
-          // //Graph detail
-          // var scatterGraph = new Chart(ctx2, {
-          //   type: 'scatter',
-          //   data: {
-          //           labels: company,
-          //           datasets: [{label:'104',
-          //                       data: scatter,
-          //                       backgroundColor:colorArr2[5]
-          //           }
-          //           ],
-          //   },
-          //   options: {
-          //     // title: {
-          //     //   display: true,
-          //     //   text: '[大數據]要求年資與起薪分佈圖',
-          //     //   fontStyle: 'bold',
-          //     //   fontColor: '#000',
-          //     //   fontSize: 16
-          //     // },
-          //     scales: {
-          //       xAxes: [{
-          //         type: 'linear',
-          //         position: 'bottom',
-          //         scaleLabel: {
-          //             display: true,
-          //             labelString: '最低要求年資',
-          //             fontColor: '#333',
-          //             fontSize: 16
-          //         },
-          //         ticks: {
-          //           beginAtZero: true,
-          //           max: 10,
-          //           min: 0                     
-          //         }
-          //       }],
-          //       yAxes: [{
-          //         barPercentage: 0.9,
-          //         scaleLabel: {
-          //             display: true,
-          //             labelString: '薪水範圍',
-          //             fontColor: '#333',
-          //             fontSize: 16
-          //         },
-          //         ticks: {
-          //           beginAtZero: true,
-          //           max: 60000,
-          //           min: 20000                     
-          //         }
-          //       }]
-          //     },
-          //     tooltips: {
+          //Graph detail
+          var scatterGraph = new Chart(ctx2, {
+            type: 'scatter',
+            data: {
+                    labels: company,
+                    datasets: [{label:'104',
+                                data: scatter,
+                                backgroundColor:colorArr2[5]
+                    }
+                    ],
+            },
+            options: {
+              // title: {
+              //   display: true,
+              //   text: '[大數據]要求年資與起薪分佈圖',
+              //   fontStyle: 'bold',
+              //   fontColor: '#000',
+              //   fontSize: 16
+              // },
+              scales: {
+                xAxes: [{
+                  type: 'linear',
+                  position: 'bottom',
+                  scaleLabel: {
+                      display: true,
+                      labelString: '最低要求年資',
+                      fontColor: '#333',
+                      fontSize: 16
+                  },
+                  ticks: {
+                    beginAtZero: true,
+                    max: 10,
+                    min: 0                     
+                  }
+                }],
+                yAxes: [{
+                  barPercentage: 0.9,
+                  scaleLabel: {
+                      display: true,
+                      labelString: '薪水範圍',
+                      fontColor: '#333',
+                      fontSize: 16
+                  },
+                  ticks: {
+                    beginAtZero: true,
+                    max: 60000,
+                    min: 20000                     
+                  }
+                }]
+              },
+              tooltips: {
                 
-          //       callbacks: {
-          //          label: function(tooltipItem, data) {
-          //           var label = data.labels[tooltipItem.index];
-          //           var year = tooltipItem.xLabel;
-          //           var money = tooltipItem.yLabel;
-          //           return data.labels[tooltipItem.index] +"，最低年資："+ year +"年，起薪：" + money;
-          //        }
-          //      }
-          //     },
-          //     legend: {
-          //         display: true,
-          //         position: 'top'
+                callbacks: {
+                   label: function(tooltipItem, data) {
+                    var label = data.labels[tooltipItem.index];
+                    var year = tooltipItem.xLabel;
+                    var money = tooltipItem.yLabel;
+                    return data.labels[tooltipItem.index] +"，最低年資："+ year +"年，起薪：" + money;
+                 }
+               }
+              },
+              legend: {
+                  display: true,
+                  position: 'top'
                   
-          //     }
-          //   }  
-          // });
+              }
+            }  
+          });
 
 
-          // //canvas setting
-          // var ctx3 = $("#salary_in_industry");
+          //canvas setting
+          var ctx3 = $("#salary_in_industry");
 
-          // //Graph detail
-          // var radarGraph = new Chart(ctx3, {
-          //   type: 'radar', 
-          //   data: { 
-          //           labels: ['一般商業' , '教育研究醫療生技業' , '電子電信業' , '金融業', '傳產製造業', '文化媒體業', '其他產業', '資訊科技業'],                   
-          //           datasets : [{
-          //                 label: '最低起薪',
-          //                 fill: true,
-          //                 backgroundColor: colorArr1[3],
-          //                 borderColor: colorArr2[3],
-          //                 pointBackgroundColor: colorArr1[3],
-          //                 pointBorderColor: colorArr2[3],
-          //                 data: rdata1
-          //               },{
-          //                 label: '最高起薪',
-          //                 fill: true,
-          //                 backgroundColor: colorArr1[4],
-          //                 borderColor: colorArr2[4],
-          //                 pointBackgroundColor: colorArr1[4],
-          //                 pointBorderColor: colorArr2[4],
-          //                 data: rdata2
-          //               }]
-          //   },
-          //   options: {
-          //     // title: {
-          //     //   display: true,
-          //     //   text: '[大數據]產業別起薪範圍圖',
-          //     //   fontStyle: 'bold',
-          //     //   fontColor: '#000',
-          //     //   fontSize: 16
-          //     // },
-          //     tooltips: {
+          //Graph detail
+          var radarGraph = new Chart(ctx3, {
+            type: 'radar', 
+            data: { 
+                    labels: ['一般商業' , '教育研究醫療生技業' , '電子電信業' , '金融業', '傳產製造業', '文化媒體業', '其他產業', '資訊科技業'],                   
+                    datasets : [{
+                          label: '最低起薪',
+                          fill: true,
+                          backgroundColor: colorArr1[3],
+                          borderColor: colorArr2[3],
+                          pointBackgroundColor: colorArr1[3],
+                          pointBorderColor: colorArr2[3],
+                          data: rdata1
+                        },{
+                          label: '最高起薪',
+                          fill: true,
+                          backgroundColor: colorArr1[4],
+                          borderColor: colorArr2[4],
+                          pointBackgroundColor: colorArr1[4],
+                          pointBorderColor: colorArr2[4],
+                          data: rdata2
+                        }]
+            },
+            options: {
+              // title: {
+              //   display: true,
+              //   text: '[大數據]產業別起薪範圍圖',
+              //   fontStyle: 'bold',
+              //   fontColor: '#000',
+              //   fontSize: 16
+              // },
+              tooltips: {
                 
-          //       callbacks: {
-          //          label: function(tooltipItem, data) {
-          //           var label = data.labels[tooltipItem.index];
-          //           var money = tooltipItem.yLabel;
-          //           return data.labels[tooltipItem.index]+"，月薪：" + money;
-          //        }
-          //      }
-          //     }
+                callbacks: {
+                   label: function(tooltipItem, data) {
+                    var label = data.labels[tooltipItem.index];
+                    var money = tooltipItem.yLabel;
+                    return data.labels[tooltipItem.index]+"，月薪：" + money;
+                 }
+               }
+              }
 
-          //   }  
-          // });
+            }  
+          });
 
         },
         error: function(data) {

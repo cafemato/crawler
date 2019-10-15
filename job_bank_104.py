@@ -33,7 +33,7 @@ def crawler(keyword,t_name):
     ua = UserAgent()
     j = 1
     job_list = []
-    while True:    
+    while j<3:    
         headers = {'user-agent':ua.random}
         url = keyword_url(keyword)
         final_url = url + str(j)
@@ -237,8 +237,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options 
 CHROMEDRIVER_PATH = "/Users/cafemato/chromedriver"
 driver = webdriver.Chrome(CHROMEDRIVER_PATH)
-time.sleep(random.randrange(10,20)) 
+time.sleep(40) 
 driver.set_page_load_timeout(5) 
-driver.get("http://localhost/chart.html")
+driver.get("http://localhost/github/crawler/chart.html")
 
 print("工作已完成，請查看網頁之分析圖!")   

@@ -9,9 +9,9 @@ define("DB_NAME", "job_bank");
 $mysqli = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
 if(!$mysqli){die("Connection failed: " . $mysqli->error);}
 
-$query = sprintf("SELECT industry,count(*) AS counts FROM bigdata GROUP BY industry");
+$query = sprintf("SELECT industry,count(*) AS counts FROM front_engineer GROUP BY industry");
 
-$query2 = sprintf("SELECT company,salary_low,requirement from bigdata");
+$query2 = sprintf("SELECT company,salary_low,requirement from front_engineer");
 
 $query3 = sprintf("SELECT ROUND(AVG(CASE WHEN industry = '資訊科技業' THEN salary_low END)) AS tech,
 ROUND(AVG(CASE WHEN industry = '電子電信業' THEN salary_low END)) AS  elec,
@@ -37,7 +37,7 @@ ROUND(AVG(CASE WHEN industry = '其他產業' THEN salary_high END)) AS  others
 FROM bigdata
 WHERE salary_high >3000 and salary_high < 250000 ");
 
-$query5 = sprintf("SELECT area, count(*) AS counts FROM bigdata GROUP BY area ");
+$query5 = sprintf("SELECT area, count(*) AS counts FROM front_engineer GROUP BY area ");
 
 $result = $mysqli->query($query);
 $result2 = $mysqli->query($query2);
@@ -56,9 +56,9 @@ foreach ($result4 as $row) { $data4[] = $row; }
 $data5 = array();
 foreach ($result5 as $row) { $data5[] = $row; }
 
-$key = '大數據';
+$key = '前端工程師';
 
-$table = 'bigdata';
+$table = 'front_engineer';
 
 $sysvar = array(array('keyword' => $key ,'t_name' => $table));
 

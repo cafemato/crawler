@@ -8,14 +8,9 @@ $t_name = readline("請輸入您搜尋關鍵字對應資料表名稱(請輸入�
 echo '您輸入的關鍵字是: '.$keyword."\n";
 echo '您輸入的資料表名稱是: '.$t_name."\n";
 
-// $keyword = "大數據" ;
-// $t_name = "bigdata";
-     // echo "您輸入的關鍵字為: ". $keyword . "<br />";
-     // echo "您輸入的表格名稱為: ". $t_name . "<br />";
-     // echo "Results from test...";
-     // echo "</br>";
-     $output = passthru('python job_bank_104.py '.$keyword.' '.$t_name);
-     echo $output;
+
+$output = passthru('python job_bank_104.py '.$keyword.' '.$t_name);
+echo $output;
 
 // $output = exec('python /Users/ffmatojp/Documents/GitHub/crawler/test.py');
 // echo $output;

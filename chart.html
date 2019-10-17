@@ -18,7 +18,7 @@
       <div class="col-8 offset-2">
                 <div class="card card-default">
                   <div class="card-header justify-content-center">
-                    <h3 class="text-center">關鍵字[大數據]產業別之職缺數量</h3>
+                    <h4 id="table_title1" class="text-center"></h4>
                   </div>
                   <div class="card-body" >
                     <canvas id="industry_job_no"></canvas>
@@ -28,7 +28,7 @@
       <div class="col-8 offset-2">
                 <div class="card card-default mt-3">
                   <div class="card-header justify-content-center">
-                    <h3 class="text-center">關鍵字[大數據]要求年資與起薪分佈圖</h3>
+                    <h4 id="table_title2" class="text-center"></h4>
                   </div>
                   <div class="card-body" >
                     <canvas id="high_salary_job"></canvas>
@@ -38,10 +38,20 @@
       <div class="col-8 offset-2">
                 <div class="card card-default mt-3">
                   <div class="card-header justify-content-center">
-                    <h3 class="text-center">關鍵字[大數據]產業別起薪範圍圖</h3>
+                    <h4 id="table_title3" class="text-center"></h4>
                   </div>
                   <div class="card-body" >
                     <canvas id="salary_in_industry"></canvas>
+                  </div>
+                </div>
+      </div>
+      <div class="col-8 offset-2">
+                <div class="card card-default mt-3">
+                  <div class="card-header justify-content-center">
+                    <h4 id="table_title4" class="text-center"></h4>
+                  </div>
+                  <div class="card-body" >
+                    <canvas id="area_job_no"></canvas>
                   </div>
                 </div>
       </div>
@@ -86,11 +96,17 @@
         method: "GET",
         success: function(data) {
           console.log(data[0]);
-          var key1 = "<?php echo $keyword ?>";
-          console.log(key1);
+          
+          //圖表標題h4名稱
+          $("#table_title1").text("關鍵字["+data[0].sysvar[0].keyword+"]產業別之職缺數量");
+          $("#table_title2").text("關鍵字["+data[0].sysvar[0].keyword+"]要求年資與起薪分佈圖");
+          $("#table_title3").text("關鍵字["+data[0].sysvar[0].keyword+"]產業別起薪範圍圖");
+          $("#table_title4").text("關鍵字["+data[0].sysvar[0].keyword+"]地區別之職缺數量");
+
           //intial vairable industry_job_no
           var industry = [];
-          var job_no = [];
+          var job_no1 = [];
+          
           //intial vairable high_salary_job
           var salary_low = [];
           var requirement = [];
@@ -99,9 +115,18 @@
           var new_salary_low = [];
           var company = [];
           var avg_salary = 0;
+          
           //intial vairable salary_in_industry
-          var rdata1 = [];
-          var rdata2 = [];
+          var sdata1 = [];
+          var sdata2 = [];
+
+          //intial vairable area_job_no
+          var area3 = [];
+          var area10 = [];
+          var area20 = [];
+          var job_no2_3 = [];
+          var job_no2_10 = [];
+          var job_no2_20 = [];
 
           //比較數值大小，排序用，無此函數排序數值會失效
           function compareNumbers(a, b) {
@@ -125,12 +150,21 @@
                 "rgb(54, 162, 235)",
                 "rgb(153, 102, 255)",
                 "rgb(201, 203, 207)"
+          ];
+          var colorArr3 =[
+                "rgba(255, 99, 132, 0.4)",
+                "rgba(255, 159, 64, 0.4)",
+                "rgba(255, 205, 86, 0.4)",
+                "rgba(75, 192, 192, 0.4)",
+                "rgba(54, 162, 235, 0.4)",
+                "rgba(153, 102, 255, 0.4)",
+                "rgba(201, 203, 207, 0.4)"
           ];  
 
           // Data push from industry_job_no 
           for(var i in data[0].data1) {
             industry.push(data[0].data1[i].industry);
-            job_no.push(data[0].data1[i].counts);
+            job_no1.push(data[0].data1[i].counts);
           }
 
           // Data push from high_salary_job
@@ -153,55 +187,62 @@
 
           //Data push from salary_in_industry
           
-          rdata1.push(data[0].data3[0].biz);
-          rdata1.push(data[0].data3[0].edu);
-          rdata1.push(data[0].data3[0].elec);
-          rdata1.push(data[0].data3[0].fin);
-          rdata1.push(data[0].data3[0].manu);
-          rdata1.push(data[0].data3[0].media);
-          rdata1.push(data[0].data3[0].others);
-          rdata1.push(data[0].data3[0].tech);  
+          sdata1.push(data[0].data3[0].biz);
+          sdata1.push(data[0].data3[0].edu);
+          sdata1.push(data[0].data3[0].elec);
+          sdata1.push(data[0].data3[0].fin);
+          sdata1.push(data[0].data3[0].manu);
+          sdata1.push(data[0].data3[0].media);
+          sdata1.push(data[0].data3[0].others);
+          sdata1.push(data[0].data3[0].tech);  
           
-          rdata2.push(data[0].data4[0].biz);
-          rdata2.push(data[0].data4[0].edu);
-          rdata2.push(data[0].data4[0].elec);
-          rdata2.push(data[0].data4[0].fin);
-          rdata2.push(data[0].data4[0].manu);
-          rdata2.push(data[0].data4[0].media);
-          rdata2.push(data[0].data4[0].others);
-          rdata2.push(data[0].data4[0].tech);  
+          sdata2.push(data[0].data4[0].biz);
+          sdata2.push(data[0].data4[0].edu);
+          sdata2.push(data[0].data4[0].elec);
+          sdata2.push(data[0].data4[0].fin);
+          sdata2.push(data[0].data4[0].manu);
+          sdata2.push(data[0].data4[0].media);
+          sdata2.push(data[0].data4[0].others);
+          sdata2.push(data[0].data4[0].tech);  
           
 
-          console.log(rdata1);
-          console.log(rdata2);
+          console.log(sdata1);
+          console.log(sdata2);
+
+          // Data push from area_job_no
+          for(var i in data[0].data5) {
+            if (data[0].data5[i].counts > 3) {
+              area20.push(data[0].data5[i].area);
+              job_no2_20.push(data[0].data5[i].counts);
+            }
+            // }else if(data[0].data5[i].counts > 10) {
+            //   area10.push(data[0].data5[i].area);
+            //   job_no2_10.push(data[0].data5[i].counts);
+            // }else if(data[0].data5[i].counts > 3) {
+            //   area3.push(data[0].data5[i].area);
+            //   job_no2_3.push(data[0].data5[i].counts);
+            // }
+
+          }
 
 
-          // chartdata setting
+          // chartdata industry_job_no setting
           var chartdata = {
             labels: industry,
             datasets : [
               {
                 label: '104',
-                backgroundColor: colorArr1[0],
-                borderColor: colorArr2[0],
-                borderWidth: 1,
-                hoverBackgroundColor: colorArr1[5],
-                hoverBorderColor: colorArr2[5],
-                data: job_no
-              },
-              {
-                label: '1111',
                 backgroundColor: colorArr1[1],
                 borderColor: colorArr2[1],
                 borderWidth: 1,
-                hoverBackgroundColor: colorArr1[5],
-                hoverBorderColor: colorArr2[5],
-                data: job_no
+                hoverBackgroundColor: colorArr1[4],
+                hoverBorderColor: colorArr2[4],
+                data: job_no1
               }
             ]
           };
 
-          // chartdata setting
+          // chartdata high_salary_job setting
           var chartdata2 = {
             labels: company,
             datasets : [
@@ -226,9 +267,28 @@
             ]
           };
 
+          // chartdata area_job_no setting
+          var chartdata5 = {
+            labels: area20,
+            datasets : [{
+                label: '職缺數大於3的地區',
+                backgroundColor: colorArr3[0],
+                borderColor: colorArr2[0],
+                borderWidth: 1,
+                hoverBackgroundColor: colorArr1[1],
+                hoverBorderColor: colorArr2[1],
+                data: job_no2_20
+              }
+
+            ]
+          };
+          console.log(area3);
+          console.log(job_no2_3);
+
+
           
 
-          //canvas setting
+          //canvas industry_job_no setting
           var ctx = $("#industry_job_no");
 
           //Graph detail
@@ -236,13 +296,6 @@
             type: 'bar',
             data: chartdata,
             options: {
-              // title: {
-              //   display: true,
-              //   text: '[大數據]產業別之職缺數量',
-              //   fontStyle: 'bold',
-              //   fontColor: '#000',
-              //   fontSize: 16
-              // },
               scales: {
                 xAxes: [{
                   scaleLabel: {
@@ -281,7 +334,7 @@
           });
 
 
-          //canvas setting
+          //canvas high_salary_job setting
           var ctx2 = $("#high_salary_job");
 
           //Graph detail
@@ -354,7 +407,7 @@
           });
 
 
-          //canvas setting
+          //canvas salary_in_industry setting
           var ctx3 = $("#salary_in_industry");
 
           //Graph detail
@@ -369,7 +422,7 @@
                           borderColor: colorArr2[3],
                           pointBackgroundColor: colorArr1[3],
                           pointBorderColor: colorArr2[3],
-                          data: rdata1
+                          data: sdata1
                         },{
                           label: '最高起薪',
                           fill: true,
@@ -377,7 +430,7 @@
                           borderColor: colorArr2[4],
                           pointBackgroundColor: colorArr1[4],
                           pointBorderColor: colorArr2[4],
-                          data: rdata2
+                          data: sdata2
                         }]
             },
             options: {
@@ -401,6 +454,52 @@
 
             }  
           });
+
+          //canvas area_job_no setting
+          var ctx5 = $("#area_job_no");
+
+          //Graph detail
+          var barGraph2 = new Chart(ctx5, {
+            type: 'line',
+            data: chartdata5,
+            options: {
+              scales: {
+                xAxes: [{
+                  scaleLabel: {
+                      display: true,
+                      labelString: '縣市區域',
+                      fontColor: '#333',
+                      fontSize: 16
+                  },
+                  ticks: {
+                    beginAtZero: true,
+                    max: 70,
+                    min: -10                   
+                  }
+                }],
+                yAxes: [{
+                  barPercentage: 0.9,
+                  scaleLabel: {
+                      display: true,
+                      labelString: '職缺數目',
+                      fontColor: '#333',
+                      fontSize: 16
+                  },
+                }]
+              },
+              tooltips: {
+                backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                borderWidth: 5,
+                titleFontsize: 20
+              },
+              legend: {
+                  display: true,
+                  position: 'top'
+                  
+              }
+            }  
+          });
+
 
         },
         error: function(data) {

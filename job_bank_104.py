@@ -33,7 +33,7 @@ def crawler(keyword,t_name):
     ua = UserAgent()
     j = 1
     job_list = []
-    while j<3:    
+    while True:    
         headers = {'user-agent':ua.random}
         url = keyword_url(keyword)
         final_url = url + str(j)
@@ -215,17 +215,20 @@ def toDatabase(job_list,t_name):
     engine.dispose() #關閉資料庫連結
 
 #呼叫爬蟲程式以及給予搜尋關鍵字和table名稱
-job_list = crawler(keyword,t_name)
-
-print("網頁已擷取完畢...")          
+for i in range(3):
+	job_list = crawler(keyword,t_name)
+         
 # XXX=table名稱
 # 當table名稱已存在時，new=1 -> 建立table new_XXX
 # 當table名稱已存在時，new=0 -> 不建立直接pass
 # 當table名稱不存在時，無論new=0 or 1 -> 直接建立table XXX
-create_table(t_name, new=0)
+	create_table(t_name, new=0)
 
 #連結資料庫
-toDatabase(job_list,t_name)    
+	toDatabase(job_list,t_name)  
+
+
+print("網頁已擷取完畢...")   
 print("資料已存入資料庫...")    
 
 # for i in sys.argv:
@@ -235,10 +238,10 @@ print("資料已存入資料庫...")
 #瀏覽器參數
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options 
-CHROMEDRIVER_PATH = "/Users/ffmatojp/chromedriver"
+CHROMEDRIVER_PATH = "/Users/cafemato/chromedriver"
 driver = webdriver.Chrome(CHROMEDRIVER_PATH)
-time.sleep(random.randrange(10,20)) 
+time.sleep(40) 
 driver.set_page_load_timeout(5) 
-driver.get("http://localhost/chart.html")
+driver.get("http://localhost/github/crawler/chart.html")
 
 print("工作已完成，請查看網頁之分析圖!")   

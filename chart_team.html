@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ChartJS - BarGraph</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    </script>
+    <style type="text/css">
+      #chart-container {
+        width: auto;
+        height: auto;
+      }
+       {
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+     <h1 id="table" class="text-center">人力銀行104、1111、518、Linkedin之職缺分析圖</h1>
+    <div id="chart-container">
+      <div class="col-12">
+                <div class="card card-default">
+                  <div class="card-header justify-content-center">
+                    <h4 id="table_title1" class="text-center"></h4>
+                  </div>
+                  <div class="card-body" >
+                    <canvas id="industry_job_no" ></canvas>
+                  </div>
+                </div>
+      </div>
+      <div class="col-12">
+                <div class="card card-default mt-3">
+                  <div class="card-header justify-content-center">
+                    <h4 id="table_title2" class="text-center" height="350"></h4>
+                  </div>
+                  <div class="card-body" >
+                    <canvas id="high_salary_job"></canvas>
+                  </div>
+                </div>
+      </div>
+      <div class="col-12">
+                <div class="card card-default mt-3">
+                  <div class="card-header justify-content-center">
+                    <h4 id="table_title3" class="text-center"></h4>
+                  </div>
+                  <div class="card-body" >
+                    <canvas id="salary_in_industry" height="150"></canvas>
+                  </div>
+                </div>
+      </div>                
+      <div class="col-12">
+                <div class="card card-default mt-3">
+                  <div class="card-header justify-content-center">
+                    <h4 id="table_title4_1" class="text-center" height="180"></h4>
+                  </div>
+                  <div class="card-body" >
+                    <canvas id="area_job_no1"></canvas>
+                  </div>
+                </div>
+      </div>
+      <div class="col-12">
+                <div class="card card-default mt-3">
+                  <div class="card-header justify-content-center">
+                    <h4 id="table_title4_2" class="text-center" height="180"></h4>
+                  </div>
+                  <div class="card-body" >
+                    <canvas id="area_job_no2"></canvas>
+                  </div>
+                </div>
+      </div>
+      <div class="col-12">
+                <div class="card card-default mt-3">
+                  <div class="card-header justify-content-center">
+                    <h4 id="table_title4_3" class="text-center" height="180"></h4>
+                  </div>
+                  <div class="card-body" >
+                    <canvas id="area_job_no3"></canvas>
+                  </div>
+                </div>
+      </div>
+      <div class="col-12">
+                <div class="card card-default mt-3">
+                  <div class="card-header justify-content-center">
+                    <h4 id="table_title4_4" class="text-center" height="180"></h4>
+                  </div>
+                  <div class="card-body" >
+                    <canvas id="area_job_no4"></canvas>
+                  </div>
+                </div>
+      </div>
+      <div class="col-12">
+                <div class="card card-default mt-3">
+                  <div class="card-header justify-content-center">
+                    <h4 id="table_title4_5" class="text-center" height="180"></h4>
+                  </div>
+                  <div class="card-body" >
+                    <canvas id="area_job_no5"></canvas>
+                  </div>
+                </div>
+      </div>
+     <!--  <div class="row">
+      <div class="col-6">
+                <div class="card card-default">
+                  <div class="card-header justify-content-center">
+                    <h2 class="text-center">Product Line Chart</h2>
+                  </div>
+                  <div class="card-body">
+                    <canvas id="industry_job_no"></canvas>
+                  </div>
+                </div>
+              </div>
+      <div class="col-6">
+                <div class="card card-default">
+                  <div class="card-header justify-content-center">
+                    <h2 class="text-center">Product Line Chart</h2>
+                  </div>
+                  <div class="card-body">
+                    <canvas id="high_salary_job"></canvas>
+                  </div>
+                </div>
+              </div>
+      </div> -->
+      <!-- <canvas id="high_salary_job" width="400" height="400"></canvas>
+      <canvas id="salary_in_industry" width="400" height="400"></canvas> -->
+    </div>
+
+    <!-- javascript -->
+    <!-- JQuery -->
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"></script>
+    <!-- Chart JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+    <script>
+      $(document).ready(function(){
+      $.ajax({
+        url: "http://localhost/github/crawler/data.php",
+        method: "GET",
+        success: function(data) {
+          console.log(data[0]);
+          
+          //圖表標題h4名稱
+          $("#table_title1").text("各產業別之職缺數");
+          $("#table_title2").text("要求年資與起薪分佈圖");
+          $("#table_title3").text("產業別之起薪範圍圖");
+          $("#table_title4_1").text("[人工智慧]職缺數大於15之地區");
+          $("#table_title4_2").text("[大數據]職缺數大於30之地區");
+          $("#table_title4_3").text("[數位行銷]職缺數大於20之地區");
+          $("#table_title4_4").text("[Java工程師]職缺數大於20之地區");
+          $("#table_title4_5").text("[前端工程師]職缺數大於20之地區");
+
+          //intial vairable industry_job_no
+          var industry = [];
+          var jobno_ai = [];
+          var jobno_bg = [];
+          var jobno_dm = [];
+          var jobno_je = [];
+          var jobno_fe = [];
+          
+          //intial vairable high_salary_job
+          var salary_low = [];
+          var requirement = [];
+          var scatter_ai = [];
+          var scatter_bg = [];
+          var scatter_dm = [];
+          var scatter_je = [];
+          var scatter_fe = [];
+          var salary_low_year = [];
+          var new_salary_low = [];
+          var company_ai = [];
+          var company_bg = [];
+          var company_dm = [];
+          var company_je = [];
+          var company_fe = [];
+          var avg_salary = 0;
+          
+          //intial vairable salary_in_industry
+          var sdatalow_ai = [];
+          var sdatahigh_ai = [];
+          var sdatalow_bg = [];
+          var sdatahigh_bg = [];
+          var sdatalow_dm = [];
+          var sdatahigh_dm = [];
+          var sdatalow_je = [];
+          var sdatahigh_je = [];
+          var sdatalow_fe = [];
+          var sdatahigh_fe = [];
+
+          //intial vairable area_job_no
+          var area_ai = [];
+          var area_bg = [];
+          var area_dm = [];
+          var area_je = [];
+          var area_fe = [];
+          var jobno2_ai = [];
+          var jobno2_bg = [];
+          var jobno2_dm = [];
+          var jobno2_je = [];
+          var jobno2_fe = [];
+
+          //比較數值大小，排序用，無此函數排序數值會失效
+          function compareNumbers(a, b) {
+           return a - b;
+          }
+
+          var colorArr1 =[
+                "rgba(255, 99, 132, 0.2)",
+                "rgba(255, 159, 64, 0.2)",
+                "rgba(255, 205, 86, 0.2)",
+                "rgba(75, 192, 192, 0.2)",
+                "rgba(54, 162, 235, 0.2)",
+                "rgba(153, 102, 255, 0.2)",
+                "rgba(201, 203, 207, 0.2)"
+          ];
+          var colorArr2 =[
+                "rgb(255, 99, 132)",
+                "rgb(255, 159, 64)",
+                "rgb(255, 205, 86)",
+                "rgb(75, 192, 192)",
+                "rgb(54, 162, 235)",
+                "rgb(153, 102, 255)",
+                "rgb(201, 203, 207)"
+          ];
+          var colorArr3 =[
+                "rgba(255, 99, 132, 0.4)",
+                "rgba(25, 19, 64, 0.4)",
+                "rgba(255, 205, 86, 0.4)",
+                "rgba(75, 192, 192, 0.4)",
+                "rgba(54, 162, 235, 0.4)",
+                "rgba(153, 102, 255, 0.4)",
+                "rgba(201, 203, 207, 0.4)"
+          ];
+          var colorArr4 =[
+                "rgba(255, 99, 132, 0.8)",
+                "rgba(25, 19, 64, 0.8)",
+                "rgba(255, 205, 86, 0.8)",
+                "rgba(75, 192, 192, 0.8)",
+                "rgba(54, 162, 235, 0.8)",
+                "rgba(153, 102, 255, 0.8)",
+                "rgba(201, 203, 207, 0.8)"
+          ];
+          var colorArr5 =[
+                "rgba(255, 99, 132, 0.8)",
+                "rgba(255, 159, 64, 0.8)",
+                "rgba(255, 205, 86, 0.8)",
+                "rgba(155, 19, 61, 0.8)",
+                "rgba(55, 25, 46, 0.8)",
+                "rgba(75, 192, 192, 0.8)",
+                "rgba(54, 162, 235, 0.8)",
+                "rgba(175, 12, 92, 0.8)",
+                "rgba(64, 122, 25, 0.8)",
+                "rgba(155, 59, 164, 0.8)",
+                "rgba(55, 05, 186, 0.8)",
+                "rgba(175, 92, 92, 0.8)",
+                "rgba(55, 105, 16, 0.8)",
+                "rgba(15, 29, 192, 0.8)",
+                "rgba(52, 25, 186, 0.8)",
+                "rgba(67, 12, 212, 0.8)",
+                "rgba(154, 16, 25, 0.8)",
+                "rgba(15, 65, 64, 0.8)",
+                "rgba(59, 205, 16, 0.8)",
+                "rgba(53, 192, 209, 0.8)",
+                "rgba(255, 15, 162, 0.8)",
+                "rgba(153, 129, 92, 0.8)",
+                "rgba(254, 62, 135, 0.8)",
+                "rgba(153, 102, 255, 0.8)",
+                "rgba(154, 162, 35, 0.8)",
+                "rgba(13, 142, 215, 0.8)",
+                "rgba(55, 199, 232, 0.8)",
+                "rgba(155, 59, 164, 0.8)",
+                "rgba(25, 105, 186, 0.8)",
+                "rgba(201, 203, 207, 0.8)"
+          ];     
+
+          // Data push from industry_job_no 
+          for(var i in data[0].data1_1) {
+            industry.push(data[0].data1_1[i].industry);
+            jobno_ai.push(data[0].data1_1[i].counts);
+          }
+          for(var i in data[0].data1_2) {
+            jobno_bg.push(data[0].data1_2[i].counts);
+          }
+          for(var i in data[0].data1_3) {
+            jobno_dm.push(data[0].data1_3[i].counts);
+          }
+          for(var i in data[0].data1_4) {
+            jobno_je.push(data[0].data1_4[i].counts);
+          }
+          for(var i in data[0].data1_5) {
+            jobno_fe.push(data[0].data1_5[i].counts);
+          }
+
+          // Data push from high_salary_job
+          for(var i in data[0].data2_1) {
+            
+            if (data[0].data2_1[i].salary_low > 150000) {
+              salary_low_year.push(data[0].data2_1[i].salary_low);
+            }     
+            else if(data[0].data2_1[i].salary_low >1500 && data[0].data2_1[i].requirement >0){
+              var json = {x: data[0].data2_1[i].requirement,y: data[0].data2_1[i].salary_low,z:data[0].data2_1[i].company};
+              scatter_ai.push(json);
+              company_ai.push(data[0].data2_1[i].company);
+            }            
+          }
+
+          for(var i in data[0].data2_2) {
+            
+            if (data[0].data2_2[i].salary_low > 150000) {
+              salary_low_year.push(data[0].data2_2[i].salary_low);
+            }     
+            else if(data[0].data2_2[i].salary_low >1500 && data[0].data2_2[i].requirement >0){
+              var json = {x: data[0].data2_2[i].requirement,y: data[0].data2_2[i].salary_low,z:data[0].data2_2[i].company};
+              scatter_bg.push(json);
+              company_bg.push(data[0].data2_2[i].company);
+            }            
+          }
+
+          for(var i in data[0].data2_3) {
+            
+            if (data[0].data2_3[i].salary_low > 150000) {
+              salary_low_year.push(data[0].data2_3[i].salary_low);
+            }     
+            else if(data[0].data2_3[i].salary_low >1500 && data[0].data2_3[i].requirement >0){
+              var json = {x: data[0].data2_3[i].requirement,y: data[0].data2_3[i].salary_low,z:data[0].data2_3[i].company};
+              scatter_dm.push(json);
+              company_dm.push(data[0].data2_3[i].company);
+            }            
+          }
+
+          var all_company = company_ai.concat(company_bg,company_dm)
+
+          salary_low_year.sort(compareNumbers);
+          salary_low.sort(compareNumbers); 
+
+          //Data push from salary_in_industry
+          
+          sdatalow_ai.push(data[0].data3_1[0].biz);
+          sdatalow_ai.push(data[0].data3_1[0].edu);
+          sdatalow_ai.push(data[0].data3_1[0].elec);
+          sdatalow_ai.push(data[0].data3_1[0].fin);
+          sdatalow_ai.push(data[0].data3_1[0].manu);
+          sdatalow_ai.push(data[0].data3_1[0].media);
+          sdatalow_ai.push(data[0].data3_1[0].others);
+          sdatalow_ai.push(data[0].data3_1[0].tech);  
+          
+          sdatahigh_ai.push(data[0].data4_1[0].biz);
+          sdatahigh_ai.push(data[0].data4_1[0].edu);
+          sdatahigh_ai.push(data[0].data4_1[0].elec);
+          sdatahigh_ai.push(data[0].data4_1[0].fin);
+          sdatahigh_ai.push(data[0].data4_1[0].manu);
+          sdatahigh_ai.push(data[0].data4_1[0].media);
+          sdatahigh_ai.push(data[0].data4_1[0].others);
+          sdatahigh_ai.push(data[0].data4_1[0].tech);  
+
+          sdatalow_bg.push(data[0].data3_2[0].biz);
+          sdatalow_bg.push(data[0].data3_2[0].edu);
+          sdatalow_bg.push(data[0].data3_2[0].elec);
+          sdatalow_bg.push(data[0].data3_2[0].fin);
+          sdatalow_bg.push(data[0].data3_2[0].manu);
+          sdatalow_bg.push(data[0].data3_2[0].media);
+          sdatalow_bg.push(data[0].data3_2[0].others);
+          sdatalow_bg.push(data[0].data3_2[0].tech);  
+          
+          sdatahigh_bg.push(data[0].data4_2[0].biz);
+          sdatahigh_bg.push(data[0].data4_2[0].edu);
+          sdatahigh_bg.push(data[0].data4_2[0].elec);
+          sdatahigh_bg.push(data[0].data4_2[0].fin);
+          sdatahigh_bg.push(data[0].data4_2[0].manu);
+          sdatahigh_bg.push(data[0].data4_2[0].media);
+          sdatahigh_bg.push(data[0].data4_2[0].others);
+          sdatahigh_bg.push(data[0].data4_2[0].tech);  
+
+          sdatalow_dm.push(data[0].data3_3[0].biz);
+          sdatalow_dm.push(data[0].data3_3[0].edu);
+          sdatalow_dm.push(data[0].data3_3[0].elec);
+          sdatalow_dm.push(data[0].data3_3[0].fin);
+          sdatalow_dm.push(data[0].data3_3[0].manu);
+          sdatalow_dm.push(data[0].data3_3[0].media);
+          sdatalow_dm.push(data[0].data3_3[0].others);
+          sdatalow_dm.push(data[0].data3_3[0].tech);  
+          
+          sdatahigh_dm.push(data[0].data4_3[0].biz);
+          sdatahigh_dm.push(data[0].data4_3[0].edu);
+          sdatahigh_dm.push(data[0].data4_3[0].elec);
+          sdatahigh_dm.push(data[0].data4_3[0].fin);
+          sdatahigh_dm.push(data[0].data4_3[0].manu);
+          sdatahigh_dm.push(data[0].data4_3[0].media);
+          sdatahigh_dm.push(data[0].data4_3[0].others);
+          sdatahigh_dm.push(data[0].data4_3[0].tech);  
+
+          sdatalow_je.push(data[0].data3_4[0].biz);
+          sdatalow_je.push(data[0].data3_4[0].edu);
+          sdatalow_je.push(data[0].data3_4[0].elec);
+          sdatalow_je.push(data[0].data3_4[0].fin);
+          sdatalow_je.push(data[0].data3_4[0].manu);
+          sdatalow_je.push(data[0].data3_4[0].media);
+          sdatalow_je.push(data[0].data3_4[0].others);
+          sdatalow_je.push(data[0].data3_4[0].tech);  
+          
+          sdatahigh_je.push(data[0].data4_4[0].biz);
+          sdatahigh_je.push(data[0].data4_4[0].edu);
+          sdatahigh_je.push(data[0].data4_4[0].elec);
+          sdatahigh_je.push(data[0].data4_4[0].fin);
+          sdatahigh_je.push(data[0].data4_4[0].manu);
+          sdatahigh_je.push(data[0].data4_4[0].media);
+          sdatahigh_je.push(data[0].data4_4[0].others);
+          sdatahigh_je.push(data[0].data4_4[0].tech);  
+
+          sdatalow_fe.push(data[0].data3_5[0].biz);
+          sdatalow_fe.push(data[0].data3_5[0].edu);
+          sdatalow_fe.push(data[0].data3_5[0].elec);
+          sdatalow_fe.push(data[0].data3_5[0].fin);
+          sdatalow_fe.push(data[0].data3_5[0].manu);
+          sdatalow_fe.push(data[0].data3_5[0].media);
+          sdatalow_fe.push(data[0].data3_5[0].others);
+          sdatalow_fe.push(data[0].data3_5[0].tech);  
+          
+          sdatahigh_fe.push(data[0].data4_5[0].biz);
+          sdatahigh_fe.push(data[0].data4_5[0].edu);
+          sdatahigh_fe.push(data[0].data4_5[0].elec);
+          sdatahigh_fe.push(data[0].data4_5[0].fin);
+          sdatahigh_fe.push(data[0].data4_5[0].manu);
+          sdatahigh_fe.push(data[0].data4_5[0].media);
+          sdatahigh_fe.push(data[0].data4_5[0].others);
+          sdatahigh_fe.push(data[0].data4_5[0].tech); 
+          
+
+          console.log(sdatalow_bg);
+          console.log(sdatahigh_bg);
+
+          // Data push from area_job_no
+          for(var i in data[0].data5_1) {
+            if (data[0].data5_1[i].counts > 15) {
+              area_ai.push(data[0].data5_1[i].area);
+              jobno2_ai.push(data[0].data5_1[i].counts);
+            }
+          }
+
+          // Data push from area_job_no
+          for(var i in data[0].data5_2) {
+            if (data[0].data5_2[i].counts > 30) {
+              area_bg.push(data[0].data5_2[i].area);
+              jobno2_bg.push(data[0].data5_2[i].counts);
+            }
+          }
+
+          // Data push from area_job_no
+          for(var i in data[0].data5_3) {
+            if (data[0].data5_3[i].counts > 20) {
+              area_dm.push(data[0].data5_3[i].area);
+              jobno2_dm.push(data[0].data5_3[i].counts);
+            }
+          }
+
+          // Data push from area_job_no
+          for(var i in data[0].data5_4) {
+            if (data[0].data5_4[i].counts > 20) {
+              area_je.push(data[0].data5_4[i].area);
+              jobno2_je.push(data[0].data5_4[i].counts);
+            }
+          }
+
+          // Data push from area_job_no
+          for(var i in data[0].data5_5) {
+            if (data[0].data5_5[i].counts > 20) {
+              area_fe.push(data[0].data5_5[i].area);
+              jobno2_fe.push(data[0].data5_5[i].counts);
+            }
+          }
+
+
+          // chartdata industry_job_no setting
+          var chartdata = {
+            labels: industry,
+            datasets : [
+              {
+                label: '人工智慧',
+                backgroundColor: colorArr1[0],
+                borderColor: colorArr2[0],
+                borderWidth: 1,
+                data: jobno_ai,
+                fill: true,
+                lineTension:0.4
+              },
+              {
+                label: '大數據',
+                backgroundColor: colorArr1[3],
+                borderColor: colorArr2[3],
+                borderWidth: 1,
+                data: jobno_bg,
+                fill: true,
+                lineTension:0.4
+              },
+              {
+                label: '數位行銷',
+                backgroundColor: colorArr1[5],
+                borderColor: colorArr2[5],
+                borderWidth: 1,
+                data: jobno_dm,
+                fill: true,
+                lineTension:0.4
+              },
+              {
+                label: 'Java工程師',
+                backgroundColor: colorArr1[2],
+                borderColor: colorArr2[2],
+                borderWidth: 1,
+                data: jobno_je,
+                fill: true,
+                lineTension:0.4
+              },
+              {
+                label: '前端工程師',
+                backgroundColor: colorArr1[4],
+                borderColor: colorArr2[4],
+                borderWidth: 1,
+                data: jobno_fe,
+                fill: true,
+                lineTension:0.4
+              }
+            ]
+          };
+
+          // chartdata high_salary_job setting
+          var chartdata2 = {
+            // labels: company_ai,
+            datasets : [
+              {
+                label: '104月薪',
+                backgroundColor: colorArr1[0],
+                borderColor: colorArr2[0],
+                borderWidth: 1,
+                hoverBackgroundColor: colorArr1[5],
+                hoverBorderColor: colorArr2[5],
+                data: new_salary_low
+              },{
+                label: '104年薪',
+                backgroundColor: colorArr1[1],
+                borderColor: colorArr2[1],
+                borderWidth: 1,
+                hoverBackgroundColor: colorArr1[5],
+                hoverBorderColor: colorArr2[5],
+                data: salary_low_year
+              }
+
+            ]
+          };          
+
+          //canvas industry_job_no setting
+          var ctx = $("#industry_job_no");
+
+          //Graph detail
+          var barGraph = new Chart(ctx, {
+            type: 'line',
+            data: chartdata,
+            options: {
+              scales: {
+                xAxes: [{
+                  scaleLabel: {
+                      display: true,
+                      labelString: '產業名稱',
+                      fontColor: '#333',
+                      fontSize: 16
+                  },
+                  ticks: {
+                    beginAtZero: true,
+                    max: 70,
+                    min: -10                   
+                  }
+                }],
+                yAxes: [{
+                  barPercentage: 0.9,
+                  scaleLabel: {
+                      display: true,
+                      labelString: '職缺數目',
+                      fontColor: '#333',
+                      fontSize: 16
+                  },
+                  ticks: {
+                    beginAtZero: true,
+                    max: 1800,
+                    min: 0                   
+                  }
+                }]
+              },
+              tooltips: {
+                backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                borderWidth: 5,
+                titleFontsize: 20
+              },
+              legend: {
+                  display: true,
+                  position: 'top'
+                  
+              }
+            }  
+          });
+
+
+          //canvas high_salary_job setting
+          var ctx2 = $("#high_salary_job");
+
+          //Graph detail
+          var scatterGraph = new Chart(ctx2, {
+            type: 'scatter',
+            data: {
+                    labels: all_company,
+                    datasets: [{label:'人工智慧',
+                                data: scatter_ai,
+                                backgroundColor:colorArr2[5]
+                    },{label:'大數據',
+                                data: scatter_bg,
+                                backgroundColor:colorArr2[4]
+                    },{label:'數位行銷',
+                                data: scatter_dm,
+                                backgroundColor:colorArr2[0]
+                    },{label:'Java工程師',
+                                data: scatter_je,
+                                backgroundColor:colorArr2[3]
+                    },{label:'前端工程師',
+                                data: scatter_fe,
+                                backgroundColor:colorArr2[1]
+                    }
+                    ],
+            },
+            options: {
+              // title: {
+              //   display: true,
+              //   text: '[大數據]要求年資與起薪分佈圖',
+              //   fontStyle: 'bold',
+              //   fontColor: '#000',
+              //   fontSize: 16
+              // },
+              scales: {
+                xAxes: [{
+                  type: 'linear',
+                  position: 'bottom',
+                  scaleLabel: {
+                      display: true,
+                      labelString: '最低要求年資',
+                      fontColor: '#333',
+                      fontSize: 16
+                  },
+                  ticks: {
+                    beginAtZero: true,
+                    max: 10,
+                    min: 0                     
+                  }
+                }],
+                yAxes: [{
+                  barPercentage: 0.9,
+                  scaleLabel: {
+                      display: true,
+                      labelString: '薪水範圍',
+                      fontColor: '#333',
+                      fontSize: 16
+                  },
+                  ticks: {
+                    beginAtZero: true,
+                    max: 80000,
+                    min: 20000                     
+                  }
+                }]
+              },
+              tooltips: {
+                
+                callbacks: {
+                   label: function(tooltipItem, data) {
+                    var label = data.labels[tooltipItem.index];
+                    var year = tooltipItem.xLabel;
+                    var money = tooltipItem.yLabel;
+                    return data.labels[tooltipItem.index] +"，最低年資："+ year +"年，起薪：" + money;
+                 }
+               }
+              },
+              legend: {
+                  display: true,
+                  position: 'top'
+                  
+              }
+            }  
+          });
+
+
+          //canvas salary_in_industry setting
+          var ctx3_1 = $("#salary_in_industry");
+
+          //Graph detail
+          var radarGraph1 = new Chart(ctx3_1, {
+            type: 'radar', 
+            data: { 
+                    labels: ['一般商業' , '教育研究醫療生技業' , '電子電信業' , '金融業', '傳產製造業', '文化媒體業', '其他產業', '資訊科技業'],                   
+                    datasets : [{
+                          label: '人工智慧最低起薪',
+                          fill: false,
+                          backgroundColor: colorArr3[5],
+                          borderColor: colorArr3[5],
+                          data: sdatalow_ai,
+                          lineTension:0.4
+                        },{
+                          label: '人工智慧最高起薪',
+                          fill: false,
+                          backgroundColor: colorArr4[5],
+                          borderColor: colorArr4[5],
+                          data: sdatahigh_ai
+                          
+                        },
+                        {
+                          label: '大數據最低起薪',
+                          fill: false,
+                          backgroundColor: colorArr3[4],
+                          borderColor: colorArr3[4],
+                          data: sdatalow_bg,
+                          lineTension:0.4
+                        },{
+                          label: '大數據最高起薪',
+                          fill: false,
+                          backgroundColor: colorArr4[4],
+                          borderColor: colorArr4[4],
+                          data: sdatahigh_bg
+                        },
+                        {
+                          label: '數位行銷最低起薪',
+                          fill: false,
+                          backgroundColor: colorArr3[3],
+                          borderColor: colorArr3[3],
+                          data: sdatalow_dm,
+                          lineTension:0.4
+                          
+                        },{
+                          label: '數位行銷最高起薪',
+                          fill: false,
+                          backgroundColor: colorArr4[3],
+                          borderColor: colorArr4[3],
+                          data: sdatahigh_dm
+                        },
+                        {
+                          label: 'Java工程師最低起薪',
+                          fill: false,
+                          backgroundColor: colorArr3[2],
+                          borderColor: colorArr3[2],
+                          data: sdatalow_je,
+                          lineTension:0.4
+                        },{
+                          label: 'Java工程師最高起薪',
+                          fill: false,
+                          backgroundColor: colorArr4[2],
+                          borderColor: colorArr4[2],
+                          data: sdatahigh_je
+                        },
+                        {
+                          label: '前端工程師最低起薪',
+                          fill: false,
+                          backgroundColor: colorArr3[1],
+                          borderColor: colorArr3[1],
+                          data: sdatalow_fe,
+                          lineTension:0.4
+                        },{
+                          label: '前端工程師最高起薪',
+                          fill: false,
+                          backgroundColor: colorArr4[1],
+                          borderColor: colorArr4[1],
+                          data: sdatahigh_fe
+                        }]
+            },
+            options: {
+              tooltips: {
+                
+                callbacks: {
+                   label: function(tooltipItem, data) {
+                    var label = data.labels[tooltipItem.index];
+                    var money = tooltipItem.yLabel;
+                    return data.labels[tooltipItem.index]+"，月薪：" + money;
+                 }
+               }
+              }
+
+            }  
+          });
+
+          
+
+          //canvas area_job_no setting
+          var ctx5_1 = $("#area_job_no1");
+          //Graph detail
+
+          var polarGraph1 = new Chart(ctx5_1, {
+            type: 'polarArea',
+            data: {                                       
+                    datasets : [{
+                          data: jobno2_ai,
+                          backgroundColor: colorArr5
+                        }],
+                    labels: area_ai
+            },
+            options: {}  
+          });
+
+          //canvas area_job_no setting
+          var ctx5_2 = $("#area_job_no2");
+          //Graph detail
+
+          var polarGraph2 = new Chart(ctx5_2, {
+            type: 'polarArea',
+            data: {                                       
+                    datasets : [{
+                          data: jobno2_bg,
+                          backgroundColor: colorArr5
+                        }],
+                    labels: area_bg
+            },
+            options: {}  
+          });
+
+          //canvas area_job_no setting
+          var ctx5_3 = $("#area_job_no3");
+          //Graph detail
+
+          var polarGraph3 = new Chart(ctx5_3, {
+            type: 'polarArea',
+            data: {                                       
+                    datasets : [{
+                          data: jobno2_dm,
+                          backgroundColor: colorArr5
+                        }],
+                    labels: area_dm
+            },
+            options: {}  
+          });
+
+          //canvas area_job_no setting
+          var ctx5_4 = $("#area_job_no4");
+          //Graph detail
+
+          var polarGraph4 = new Chart(ctx5_4, {
+            type: 'polarArea',
+            data: {                                       
+                    datasets : [{
+                          data: jobno2_je,
+                          backgroundColor: colorArr5
+                        }],
+                    labels: area_je
+            },
+            options: {}  
+          });
+
+          //canvas area_job_no setting
+          var ctx5_5 = $("#area_job_no5");
+          //Graph detail
+
+          var polarGraph5 = new Chart(ctx5_5, {
+            type: 'polarArea',
+            data: {                                       
+                    datasets : [{
+                          data: jobno2_fe,
+                          backgroundColor: colorArr5
+                        }],
+                    labels: area_fe
+            },
+            options: {}  
+          });
+
+
+        },
+        error: function(data) {
+          console.log(data);
+        }
+      });
+});
+
+    </script>
+  </body>
+ </html>

@@ -10,7 +10,7 @@ define("DB_NAME", "job_bank");
 $mysqli = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
 if(!$mysqli){die("Connection failed: " . $mysqli->error);}
 
-$query = sprintf("SELECT industry, count(*) AS counts FROM java_engineer GROUP BY industry ");
+$query = sprintf("SELECT industry, count(*) AS counts FROM bigdata GROUP BY industry ");
 $result = $mysqli->query($query);
 
 $data = array();

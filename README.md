@@ -5,21 +5,21 @@ Web crawler for Job Bank 104 https://www.104.com.tw in Taiwan
 This crawler use crawler.php to call job_bank_104.py to run the crawler  
 Crawler.php need to be running in Terminal(Command Line Interface)  
 You need to input the keyword(Ex. Java Engineer or 人工智慧) you want to search and the database table name response to keyword
-After crawler is done, it create table automatically in the database job_bank  
+After crawler is done, it create table automatically in the database job_bank    
 Job_bank_104.py will write sql command to datapool.php & call chart.html to open new page in Chrome Browser and visualizes the chart analysis(use Chart.JS) for the data collected in table.(Now there are four chart in chart.html)  
 
-crawler.php : main execution file. Run php crawler.php to execute  
-job_bank_104.py : main crawler  
-datapool.php: sql command for chart visualization auto produced by crawler.php  
-chart.html: main chart file  
+crawler.php : main execution file. Run: php crawler.php to execute  
+job_bank_104.py : main crawler    
+datapool.php: sql command for chart visualization auto produced by crawler.php    
+chart.html: main chart file    
 
-There is also a complete edition crawler for Taiwan's 4 main job banks:104、1111、518、Linkedin   
+There is also a complete edition crawler for Taiwan's 4 main job banks:104、1111、518、Linkedin     
 chart_team.html : main chart file to show visualized data for 4 job banks  
-data.php : sql command for chart visualization for chart_team.html
-job_bank.sql : data collected by 4 crawler files(need to import to your mysql database)  
+data.php : sql command for chart visualization for chart_team.html  
+job_bank.sql : data collected by 4 crawler files(need to import to your mysql database)    
 
 
-Before crawler.php execution, you need to:
+Before crawler.php execution, you need to:  
 1.Install MAMP or XAMPP to have LAMP in your environment  
 2.create job_bank database in your local mysql database(or use phpmyadmin) 
 3.Install the following package in your Terminal(CLI) to run python program needed:

@@ -45,9 +45,9 @@ python3.6 -m pip install pymysql
 #Database_name job_bank  
 #Schema definition for job_bank
 
-1.公司名稱       company               //company name 
-2.職缺名稱       position              //job title  
-3.工作性質       job_type              //full/part-time  
+1.公司名稱       company               //company name   
+2.職缺名稱       position              //job title     
+3.工作性質       job_type              //full/part-time    
 4.工作地區       area                  //company location    
 5.最低起薪       salary_low            //salary from  
 6.最高起薪       salary_high           //salary to  
@@ -63,7 +63,7 @@ python3.6 -m pip install pymysql
 16.管理責任      manager               //manager level position   
 
 
-#產業類別(Industry genre)
+#產業類別(Industry genre)  
 1.金融業 Finnance (金融/投資/證劵/保險)  
 2.資訊科技業 IT (含電腦/軟體/硬體/網路/)  
 3.電子電信業 Electronic & Telecom (含半導體/電信/電子/光電)  

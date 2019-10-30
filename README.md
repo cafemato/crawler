@@ -19,11 +19,11 @@ data.php : sql command for chart visualization for chart_team.html
 job_bank.sql : data collected by 4 crawler files(need to import to your mysql database)    
 
 
-Before crawler.php execution, you need to:  
-1.Install MAMP or XAMPP to have LAMP in your environment  
-2.create job_bank database in your local mysql database(or use phpmyadmin) 
-3.Install the following package in your Terminal(CLI) to run python program needed:
-4.Install chrome driver in your Terminal(CLI) to open the chart.html automatically(ChromeDriver 76.0.3809.126 recommend)     
+Before crawler.php execution, you need to:    
+1.Install MAMP or XAMPP to have LAMP in your environment    
+2.create job_bank database in your local mysql database(or use phpmyadmin)   
+3.Install the following package in your Terminal(CLI) to run python program needed:  
+4.Install chrome driver in your Terminal(CLI) to open the chart.html automatically(ChromeDriver 76.0.3809.126 recommend)       
 
 python3.6 -m pip install --upgrade pip  
 python3.6 -m pip install requests  

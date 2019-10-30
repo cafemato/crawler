@@ -1,5 +1,5 @@
 # crawler
-Web crawler for Job Bank 104 https://www.104.com.tw in Taiwan  
+Web crawler for major job bank website 104 https://www.104.com.tw in Taiwan  
 (with Lxml and Beautifulsoup)       
 
 This crawler use crawler.php to call job_bank_104.py to run the crawler  

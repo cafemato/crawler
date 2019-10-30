@@ -1,30 +1,46 @@
 # crawler
-Web crawler for Job Bank 104 https://www.104.com.tw
-(with lxml &amp; Beautifulsoup)
+Web crawler for Job Bank 104 https://www.104.com.tw in Taiwan
+(with Lxml and Beautifulsoup)    
 
-104人力銀行job_bank欄位定義
-#資料庫名稱job_bank
+This crawler use crawler.php to call job_bank_104.py to run the crawler.  
+Crawler.php need to be running in Terminal(Command Line Interface).  
+You need to input the keyword(Ex. Java Engineer or 人工智慧) you want to search and the database table name response to keyword.
+After crawler is done, it create table automatically in the database job_bank.  
+Job_bank_104.py will write sql command to datapool.php & call chart.html to open new page in Chrome Browser and visualizes the chart analysis(use Chart.JS) for the data collected in table.(Now there are four chart in chart.html)  
 
+crawler.php : main execution file. Run php crawler.php to execute.
+job_bank_104.py : main crawler
+datapool.php: sql command for chart visualization auto produced by crawler.php
+chart.html: main chart file
 
-1.公司名稱       company               //招募公司名稱
-2.職缺名稱       position              //職缺的名稱抬頭
-3.工作性質       job_type              //全職/兼差/工讀
-4.工作地區       area [option]         //公司或是工作所在地區
-5.最低起薪       salary_low 
-5.最高起薪       salary_high 
-7.產業類別       industry 
-8.工作內容       content 
-9.要求條件       requirement 
-10.學歷要求       education
-11.刊登/更新日期  updated  
-12.語文條件      language                 
-13.擅長工具      soft_skill
-14.工作技能      other_skill
-15.出差外派      b_trip
-16.管理責任      manager
+There is also a complete edition crawler for Taiwan's 4 main job bank:104、1111、518、Linkedin 
 
 
-產業類別
+
+
+104人力銀行job_bank欄位定義  
+#Database_name job_bank  
+
+
+1.公司名稱       company               //company name 
+2.職缺名稱       position              //job title  
+3.工作性質       job_type              //full/part-time  
+4.工作地區       area                  //company location    
+5.最低起薪       salary_low            //salary from  
+6.最高起薪       salary_high           //salary to  
+7.產業類別       industry              //industry job belongs to  
+8.工作內容       content               //detail job description  
+9.要求條件       requirement           //how many years experience  
+10.學歷要求      education             //degree  
+11.刊登/更新日期  updated               //date job posted  
+12.語文條件      language              //language required  
+13.擅長工具      soft_skill            //sofeware skill required  
+14.工作技能      other_skill           //other skill required  
+15.出差外派      b_trip                //need to business trip  
+16.管理責任      manager               //manager level position   
+
+
+產業類別(Industry)
 1.金融業(金融/投資/證劵/保險)
 2.資訊科技業(含電腦/軟體/硬體/網路/)
 3.電子電信業(含半導體/電信/電子/光電)
@@ -37,21 +53,5 @@ Web crawler for Job Bank 104 https://www.104.com.tw
 
 
     
-if any(x in industry for x in ['金融','銀行業','保險','投資',"證券"]):
-    industry = "金融業"
-elif any(x in industry for x in ["電腦","軟體","硬體","系統","網路"]):
-    industry = "資訊科技業"
-elif any(x in industry for x in ["半導體","電信","電子","光電"]):
-    industry = "電子電信業"
-elif  any(x in industry for x in ["製造","食品","飲料","紡織","家具","製紙","印刷","化工","金屬","機械","電力","運輸","儀器","建築","物流","倉儲","營建","品管","品保","土木","農林漁牧","礦業土石"]):
-    industry = "傳產製造業"
-elif  any(x in industry for x in ["出版","翻譯","影視","演藝","新聞","媒體","美編","設計","裝潢","傳播"]):
-    industry = "文化媒體業"
-elif  any(x in industry for x in ["教育","研究","醫","生化","生技"]):
-    industry = "教育研究醫療生技業"
-elif  any(x in industry for x in ["經營","零售","管理","行政","行銷","企劃","顧問","財務","會計","稽核","審計","國際貿易","業務","客服"]):
-    industry = "一般商業"
-elif  any(x in industry for x in ["美容","美髮","餐飲","烘培","觀光","旅遊","門市"]):
-    industry = "服務業"  
-else:
-    industry = "其他產業" 
+
+

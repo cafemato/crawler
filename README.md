@@ -1,6 +1,17 @@
-# crawler
-Web crawler for major job bank website 104 https://www.104.com.tw in Taiwan  
+# Webcrawler to Visualization(Automatic)
+
+Language
+-Python integrated with PHP
+
+DB
+-MySQL
+
+Crawler
+-Web crawler for major job bank website 104 https://www.104.com.tw in Taiwan  
 (with Lxml and Beautifulsoup)       
+
+Visualization
+-PHP with jQuery, ChartJS
 
 This crawler use crawler.php to call job_bank_104.py to run the crawler  
 Crawler.php need to be running in Terminal(Command Line Interface)  

@@ -9,9 +9,16 @@ DB
 Crawler
 -Web crawler for major job bank website 104 https://www.104.com.tw in Taiwan  
 (with Lxml and Beautifulsoup)       
+![alt text](https://github.com/cafemato/crawler-storage-visualization/console.png)
+
+DB
+-MySQL
+![alt text](https://github.com/cafemato/crawler-storage-visualization/db.png)
 
 Visualization
 -PHP with jQuery, ChartJS
+
+![alt text](https://github.com/cafemato/crawler-storage-visualization/visualization.png)
 
 This crawler use crawler.php to call job_bank_104.py to run the crawler  
 Crawler.php need to be running in Terminal(Command Line Interface)  
